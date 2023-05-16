@@ -65,7 +65,7 @@ export default defineComponent({
 
     const generalStore = useGeneralStore()
 
-    generalStore.setShowBack(false)
+    generalStore.showBack = false
 
     const searchQ = ref('')
     const searchResults = ref([])
