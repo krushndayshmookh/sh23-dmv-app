@@ -47,9 +47,14 @@ import { useQuasar } from 'quasar'
 
 import { api } from 'boot/axios'
 
+import { useGeneralStore } from 'stores/general'
+
 const savedSWI_Data = [
-  { id: 1, name: 'SWI 1', description: 'This is the first SWI' },
-  { id: 2, name: 'SWI 2', description: 'This is the second SWI' },
+  {
+    id: 7,
+    name: '065235-Replace Front Brake Pads',
+    description: 'This is a test SWI',
+  },
 ]
 
 export default defineComponent({
@@ -57,6 +62,10 @@ export default defineComponent({
 
   setup() {
     const $q = useQuasar()
+
+    const generalStore = useGeneralStore()
+
+    generalStore.setShowBack(false)
 
     const searchQ = ref('')
     const searchResults = ref([])

@@ -15,6 +15,8 @@ import useSWRV from 'swrv'
 
 import { useRoute } from 'vue-router'
 
+import { useGeneralStore } from 'stores/general'
+
 export default defineComponent({
   setup() {
     const route = useRoute()
@@ -23,17 +25,16 @@ export default defineComponent({
 
     const $q = useQuasar()
 
-    const swi = useSWRV(
-      () => '/swi/' + swiId.value,
-      fetcher,
-      {
-        onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-          if (error.status === 404) return
-          if (retryCount >= 10) return
-          setTimeout(() => revalidate({ retryCount }), 5000)
-        },
-      }
-    )
+    const generalStore = useGeneralStore()
+    generalStore.setShowBack(true)
+
+    const swi = useSWRV(() => '/swi/' + swiId.value, fetcher, {
+      onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+        if (error.status === 404) return
+        if (retryCount >= 10) return
+        setTimeout(() => revalidate({ retryCount }), 5000)
+      },
+    })
 
     // const fetchSWI = () => {
     //   $q.loading.show()
