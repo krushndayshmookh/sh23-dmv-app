@@ -1,16 +1,16 @@
 <template>
-  <q-page class="">
-    <div class="col-12">
-      <div class="text-h4 text-center text-teal">Welcome!</div>
-      <div class="text-subtitle1 text-center text-italic text-green">
-        SWI for Technicians!
-      </div>
-    </div>
-    <div>
-      <div class="q-ma-md">
-        <div class="text-subtitle1 text-center text-Green">
-          Search work requirements here!
+  <q-page class="q-pa-md">
+    <q-card flat bordered class="q-mb-md">
+      <div v-if="!searchQ">
+        <div class="text-h4 text-center text-teal q-mt-md">
+          Welcome to SWIFT
         </div>
+        <div class="text-subtitle1 text-center text-italic text-green">
+          SWI For Technicians
+        </div>
+      </div>
+
+      <div class="q-ma-md">
         <q-input
           outlined
           class="q-bg-red"
@@ -26,8 +26,47 @@
           </template>
         </q-input>
       </div>
-    </div>
-    <q-list>
+    </q-card>
+
+    <q-list v-if="searchLoading">
+      <q-item v-for="i in 4" :key="i">
+        <q-item-section avatar>
+          <q-skeleton type="QRadio" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>
+            <q-skeleton type="text" />
+          </q-item-label>
+          <q-item-label caption>
+            <q-skeleton type="text" />
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+
+    <q-card
+      flat
+      bordered
+      class=""
+      v-if="searchEmpty && !displayableList.length"
+    >
+      <q-card-section class="text-center">
+        <q-icon size="128px" color="grey-4" name="search_off" />
+      </q-card-section>
+
+      <q-card-section>
+        <q-item-label class="text-center" caption>
+          No results found
+        </q-item-label>
+      </q-card-section>
+    </q-card>
+
+    <q-list
+      v-if="!searchLoading && displayableList.length"
+      bordered
+      class="bg-white rounded-borders"
+    >
       <q-item-label header dense v-if="!searchQ"> Saved SWI </q-item-label>
 
       <q-item
@@ -48,6 +87,10 @@
 
         <q-item-section>
           <q-item-label>{{ swi.name }}</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <q-icon name="chevron_right" />
         </q-item-section>
       </q-item>
     </q-list>
@@ -77,6 +120,7 @@ export default defineComponent({
 
     const searchQ = ref('')
     const searchResults = ref([])
+    const searchLoading = ref(false)
 
     const performSearch = () => {
       console.log('Search for: ', searchQ.value)
@@ -85,10 +129,20 @@ export default defineComponent({
         searchResults.value = []
         return
       }
-      api.get('/swi', { params: { search: searchQ.value } }).then(res => {
-        searchResults.value = res.data
-      })
+      searchLoading.value = true
+      api
+        .get('/swi', { params: { search: searchQ.value } })
+        .then(res => {
+          searchResults.value = res.data
+        })
+        .finally(() => {
+          searchLoading.value = false
+        })
     }
+
+    const searchEmpty = computed(
+      () => !searchLoading.value && !searchResults.value.length
+    )
 
     const savedSWIIds = computed(() => swiStore.savedSWIs)
 
@@ -112,6 +166,8 @@ export default defineComponent({
       performSearch,
       displayableList,
       resetSearch,
+      searchLoading,
+      searchEmpty,
     }
   },
 })
