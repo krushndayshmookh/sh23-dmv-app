@@ -28,7 +28,13 @@
         :to="'/' + swi.id"
       >
         <q-item-section side>
-          <q-btn flat dense round icon="star" color="amber" />
+          <q-btn
+            flat
+            dense
+            round
+            :icon="swi.saved ? 'star' : 'category'"
+            :color="swi.saved ? 'amber' : 'grey'"
+          />
         </q-item-section>
 
         <q-item-section>

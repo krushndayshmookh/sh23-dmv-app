@@ -22,7 +22,7 @@
           </q-item>
 
           <q-list bordered separator class="rounded-borders">
-            <q-expansion-item label="Steps" icon="arrow_forward">
+            <q-expansion-item label="Work Instructions" icon="arrow_forward">
               <q-card>
                 <q-card-section>
                   <q-list bordered class="rounded-borders">
@@ -36,6 +36,21 @@
                       </q-item-section>
                       <q-item-section>
                         <q-item-label>{{ item.value }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+            <q-expansion-item label="Safety Instructions" icon="warning">
+              <q-card>
+                <q-card-section>
+                  <q-list bordered separator class="rounded-borders">
+                    <q-item v-for="item in swi.safetyItems" :key="item">
+                      <q-item-section>
+                        <q-item-label>{{ item.value }}</q-item-label>
+                        <q-item-label caption>{{ item.description }}</q-item-label>
                       </q-item-section>
                     </q-item>
                   </q-list>
