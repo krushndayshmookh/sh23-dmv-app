@@ -2,14 +2,14 @@
   <q-page class="q-pa-md">
     <q-card flat bordered class="q-mb-md">
       <div v-if="!searchQ">
-        <div class="text-h4 text-center text-teal q-mt-md">
-          Welcome to SWIFT
+        <div class="text-h4 text-center text-teal text-weight-medium q-mt-md">
+          Welcome to SWI-FT
         </div>
         <div class="text-subtitle1 text-center text-italic text-green">
           SWI for Technicians
         </div>
 
-        <div class="text-subtitle1 text-center text-indigo-8">
+        <div class="text-subtitle1 text-center text-weight-bold text-indigo-8">
           Simplified Work Instructions, Amplified Productivity!
         </div>
       </div>
