@@ -1,7 +1,16 @@
 <template>
   <q-page class="">
+    <div class="col-12">
+      <div class="text-h4 text-center text-teal">Welcome!</div>
+      <div class="text-subtitle1 text-center text-italic text-green">
+        SWI for Technicians!
+      </div>
+    </div>
     <div>
       <div class="q-ma-md">
+        <div class="text-subtitle1 text-center text-Green">
+          Search work requirements here!
+        </div>
         <q-input
           outlined
           class="q-bg-red"
