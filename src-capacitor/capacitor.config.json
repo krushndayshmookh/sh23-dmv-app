@@ -1,0 +1,10 @@
+{
+  "appId": "com.siemens.sh23.dmv.app",
+  "appName": "SH23 DMV",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
