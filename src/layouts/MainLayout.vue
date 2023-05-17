@@ -13,7 +13,7 @@
         />
 
         <q-avatar>
-          <img src="public\app_icon.png" />
+          <img src="/app_icon.png" />
         </q-avatar>
 
         <q-toolbar-title>

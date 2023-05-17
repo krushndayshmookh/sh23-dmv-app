@@ -6,7 +6,7 @@
       </div>
 
       <div class="col-12 text-center">
-        <q-img src="public\team.png" class="team-img">
+        <q-img src="/team.png" class="team-img">
           <div class="absolute-bottom text-subtitle1 text-center">
             Made with love within 36 hours!
           </div>
