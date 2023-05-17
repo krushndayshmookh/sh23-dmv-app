@@ -6,7 +6,11 @@
           Welcome to SWIFT
         </div>
         <div class="text-subtitle1 text-center text-italic text-green">
-          SWI For Technicians
+          SWI for Technicians
+        </div>
+
+        <div class="text-subtitle1 text-center text-indigo-8">
+          Simplified Work Instructions, Amplified Productivity!
         </div>
       </div>
 
