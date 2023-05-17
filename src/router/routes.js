@@ -1,12 +1,20 @@
-
-const routes = [
-  {
+const routes = [{
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: ':id', component: () => import('pages/SWIPage.vue') },
-    ]
+    children: [{
+        path: '',
+        component: () => import('pages/IndexPage.vue')
+      },
+      {
+        path: ':id',
+        component: () => import('pages/SWIPage.vue')
+      },
+      {
+        path: 'about',
+        component: () => import('pages/AboutPage.vue')
+      },
+
+    ],
   },
 
   // Always leave this as last one,

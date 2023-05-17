@@ -11,8 +11,27 @@
           aria-label="Back"
           @click="$router.back"
         />
+        <div class="q-pa-md">
+          <q-toolbar class="bg-primary glossy text-white">
+            <q-avatar>
+              <img src="public\app_icon.png" />
+            </q-avatar>
+            <q-toolbar-title>SWI-FT</q-toolbar-title>
+          </q-toolbar>
+        </div>
 
-        <q-toolbar-title> SWI-FT </q-toolbar-title>
+        <q-btn
+          v-if="!$route.path.includes('about')"
+          flat
+          dense
+          align="right"
+          icon="info"
+          aria-label="About"
+          to="/about"
+          label="About Us"
+        >
+          <q-tooltip> About </q-tooltip>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
