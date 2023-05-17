@@ -27,13 +27,18 @@
         clickable
         :to="'/' + swi.id"
       >
-        <q-item-section>
-          <q-item-label>{{ swi.name }}</q-item-label>
-          <q-item-label caption>{{ swi.description }}</q-item-label>
+        <q-item-section side>
+          <q-btn
+            flat
+            dense
+            round
+            :icon="swi.saved ? 'star' : 'category'"
+            :color="swi.saved ? 'amber' : 'grey'"
+          />
         </q-item-section>
 
-        <q-item-section side>
-          <q-btn flat dense round icon="more_vert" />
+        <q-item-section>
+          <q-item-label>{{ swi.name }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -48,14 +53,7 @@ import { useQuasar } from 'quasar'
 import { api } from 'boot/axios'
 
 import { useGeneralStore } from 'stores/general'
-
-const savedSWI_Data = [
-  {
-    id: 7,
-    name: '065235-Replace Front Brake Pads',
-    description: 'This is a test SWI',
-  },
-]
+import { useSWIStore } from 'stores/swi'
 
 export default defineComponent({
   name: 'IndexPage',
@@ -64,6 +62,7 @@ export default defineComponent({
     const $q = useQuasar()
 
     const generalStore = useGeneralStore()
+    const swiStore = useSWIStore()
 
     generalStore.showBack = false
 
@@ -82,13 +81,17 @@ export default defineComponent({
       })
     }
 
-    const savedSWI = ref(savedSWI_Data)
+    const savedSWIIds = computed(() => swiStore.savedSWIs)
+
+    const savedSWIData = computed(() =>
+      savedSWIIds.value.map(id => ({ ...swiStore.getSWIById(id), saved: true }))
+    )
 
     const displayableList = computed(() => {
       if (searchQ.value.length > 0) {
         return searchResults.value
       }
-      return savedSWI.value
+      return savedSWIData.value
     })
 
     const resetSearch = () => {
@@ -96,8 +99,6 @@ export default defineComponent({
     }
 
     return {
-      savedSWI,
-
       searchQ,
       performSearch,
       displayableList,

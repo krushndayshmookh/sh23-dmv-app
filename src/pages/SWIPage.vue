@@ -10,12 +10,19 @@
               </div>
             </q-item-section>
             <q-item-section side>
-              <q-btn flat dense round icon="star_outline" />
+              <q-btn
+                flat
+                dense
+                round
+                :icon="isSaved ? 'star' : 'star_outline'"
+                :color="isSaved ? 'amber' : 'grey'"
+                @click="toggleSaved"
+              />
             </q-item-section>
           </q-item>
 
           <q-list bordered separator class="rounded-borders">
-            <q-expansion-item label="Steps" icon="arrow_forward">
+            <q-expansion-item label="Work Instructions" icon="arrow_forward">
               <q-card>
                 <q-card-section>
                   <q-list bordered class="rounded-borders">
@@ -29,6 +36,21 @@
                       </q-item-section>
                       <q-item-section>
                         <q-item-label>{{ item.value }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+            <q-expansion-item label="Safety Instructions" icon="warning">
+              <q-card>
+                <q-card-section>
+                  <q-list bordered separator class="rounded-borders">
+                    <q-item v-for="item in swi.safetyItems" :key="item">
+                      <q-item-section>
+                        <q-item-label>{{ item.value }}</q-item-label>
+                        <q-item-label caption>{{ item.description }}</q-item-label>
                       </q-item-section>
                     </q-item>
                   </q-list>
@@ -95,7 +117,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed, onMounted } from 'vue'
+import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 
 import { useQuasar } from 'quasar'
 
@@ -106,6 +128,7 @@ import useSWRV from 'swrv'
 import { useRoute } from 'vue-router'
 
 import { useGeneralStore } from 'stores/general'
+import { useSWIStore } from 'stores/swi'
 
 const NODE_ICON_MAP = {
   MEActivity: 'build',
@@ -116,7 +139,10 @@ export default defineComponent({
   setup() {
     const route = useRoute()
 
+    const swiStore = useSWIStore()
     const swiId = ref(route.params.id)
+
+    const isSaved = computed(() => swiStore.isSaved(swiId.value))
 
     const $q = useQuasar()
 
@@ -139,6 +165,15 @@ export default defineComponent({
       return !swi.value && !swiError.value
     })
 
+    const toggleSaved = () => {
+      if (!isSaved.value) {
+        swiStore.addSWIToSaved(swiId.value)
+        swiStore.addSWIToCache(swi.value)
+      } else {
+        swiStore.removeSWIFromSaved(swiId.value)
+      }
+    }
+
     const createListFromTreeData = (treeData, list, level = 0) => {
       for (const node of treeData) {
         node.level = level
@@ -160,11 +195,19 @@ export default defineComponent({
 
     const tab = ref('steps')
 
+    watch(swi, () => {
+      if (swi.value) {
+        swiStore.addSWIToCache(swi.value)
+      }
+    })
+
     return {
       swi,
       loading,
       tab,
       displayableList,
+      toggleSaved,
+      isSaved,
     }
   },
 })
