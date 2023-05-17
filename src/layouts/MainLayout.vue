@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="bg-primary glossy text-white">
         <q-btn
           v-show="showBack"
           flat
@@ -11,14 +11,14 @@
           aria-label="Back"
           @click="$router.back"
         />
-        <div class="q-pa-md">
-          <q-toolbar class="bg-primary glossy text-white">
-            <q-avatar>
-              <img src="public\app_icon.png" />
-            </q-avatar>
-            <q-toolbar-title>SWI-FT</q-toolbar-title>
-          </q-toolbar>
-        </div>
+
+        <q-avatar>
+          <img src="public\app_icon.png" />
+        </q-avatar>
+
+        <q-toolbar-title>
+          SWI-FT
+        </q-toolbar-title>
 
         <q-btn
           v-if="!$route.path.includes('about')"
